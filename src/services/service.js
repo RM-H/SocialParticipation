@@ -1,67 +1,50 @@
 import axios from "axios";
 
-export const url = 'https://mis.ofoghiranianteam.ir/api/v1/ats'
+export const url = 'http://192.168.1.111/api/v1'
 export const baseurl = 'https://mis.ofoghiranianteam.ir'
 
 
 
 
 
-// user enters number to get sms
-export const getSms = (phone) => {
+// user has registered or not
+export const checkRegisterationbyphone = (phone) => {
   return axios.post(`${url}/phone`,phone)
 }
 
 
 
-// user enters the code recived in sms to get the toekn
-export const verifySmsCode = (code) => {
-  return axios.post(`${url}/code`,code)
+// user enters username and password to login
+export const login = (code) => {
+  return axios.post(`${url}/login`,code)
 }
 
 
 
-// splash info
-export const getSplash = () => {
-  return axios.get(`${url}/splash`)
+// provinces list
+export const getProvinces = () => {
+  return axios.get(`${url}/provinces`)
 }
 
 
-// department selection
-export const selectDepartment = (dep) => {
-  return axios.post(`${url}/savedepartemant`,dep)
+// gte cities
+export const getCities = (provinceid) => {
+  const config = {
+    params: {
+      province_id:provinceid
+    }
+  }
+  return axios.get(`${url}/cities`,config)
 }
 
 // users personal info
 export const saveUserinfo = (info) => {
-  return axios.post(`${url}/savepersonal`,info)
-}
-
-// users kardani education
-export const saveKardani = (education) => {
-  return axios.post(`${url}/saveeducation1`,education)
-}
-
-// users karshenasi education
-export const saveKarshenasi = (education) => {
-  return axios.post(`${url}/saveeducation2`,education)
+  return axios.post(`${url}/register`,info)
 }
 
 
 
-// users karshenasi arshad education
-export const saveKarshenasiArshad = (education) => {
-  return axios.post(`${url}/saveeducation3`,education)
-}
-
-
-// users phd education
-export const savePhd = (education) => {
-  return axios.post(`${url}/saveeducation4`,education)
-}
-
-
-// users professional history
-export const saveWorks = (works) => {
-  return axios.post(`${url}/saveworks`,works)
+//get users personal info
+export const getInfo = (token) => {
+  return axios.post(`${url}/info`,token)
 }

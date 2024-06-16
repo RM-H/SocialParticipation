@@ -2,20 +2,20 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import  {useState} from 'react'
 import {Spinner} from '../components/index.js'
-import * as yup from "yup";
+
 import {useNavigate} from "react-router-dom";
-import {getSms,verifySmsCode} from '../services/service.js'
+import {checkRegisterationbyphone,login} from '../services/service.js'
 import {toast, ToastContainer} from "react-toastify";
-import {useDispatch} from "react-redux";
-import {setuser,setstep} from '../slices/userSlice.js'
+
+
 
 
 const Login = () => {
 
-    const dispatch = useDispatch()
+
 
     const [loading, setLoading] = useState(false)
-    const [phoneentered, setphoneentered] = useState(false)
+    const [isregistered, setisregistered] = useState(false)
 
 
     const nav = useNavigate()
@@ -24,15 +24,22 @@ const Login = () => {
     const HandleLogin =async (v) => {
 
 
-        if (phoneentered===false) {
+        if (isregistered===false) {
             const form = new FormData
             form.append('phone',v.phone)
             setLoading(true)
-            const res = await getSms(form)
+            const res = await checkRegisterationbyphone(form)
             if (res.data.code==1){
-                setphoneentered(true)
+
                 setLoading(false)
-                toast.success('کد ارسال شد')
+                if (res.data.register){
+                   localStorage.setItem('userphone', v.phone)
+                    nav('/home')
+                } else {
+                    setisregistered(true)
+
+                }
+
             } else {
                 toast.warning(res.data.error)
             }
@@ -42,30 +49,27 @@ const Login = () => {
         } else {
             const form = new FormData
             form.append('phone',v.phone)
-            form.append('code',v.code);
+            form.append('password',v.code);
             setLoading(true)
-            let resp = await verifySmsCode(form)
-            console.log(resp.data)
+            let resp = await login(form)
+
 
           if (resp.data.code===1){
 
 
-              // user continues his steps
-              if (resp.data.user.departemant) {
-                  dispatch(setstep(1))
-              }
-              if (resp.data.user.name) {
-                  dispatch(setstep(2))
-              }
 
+              localStorage.setItem('userinfo',JSON.stringify(resp.data) )
 
-              dispatch(setuser(resp.data))
               setLoading(false)
 
 
-              nav('/ats')
+
+
+
               toast.success('با موفقیت وارد شدید')
+              nav('/home/results')
           } else {
+              setLoading(false)
              toast.warning(resp.data.error)
           }
 
@@ -79,7 +83,7 @@ const Login = () => {
 
             <div
 
-                 style={{width: "100wv", height: '100vh' , display:'flex', justifyContent:'center' , alignItems:'center' , backgroundImage:'url(/assets/images/wallpaper.jpg)' , backgroundSize:'auto' , backgroundRepeat:'no-repeat'}}>
+                 style={{width: "100wv", height: '100vh' , display:'flex', justifyContent:'center' , alignItems:'center' , backgroundImage:'url(/assets/images/wallpaper.png)' , backgroundSize:'cover' , backgroundRepeat:'no-repeat'}}>
 
 
 
@@ -98,9 +102,10 @@ const Login = () => {
                     <input type="checkbox" id="chk" aria-hidden="true"/>
 
                     <div className="signup is-size-5 has-text-centered yekan-regular">
-                        <h2>
-                           به سامانه رهگیری استخدام (ATS) افق ایرانیان خوش آمدید.
-                        </h2>
+
+                        <img src='/assets/images/logo.png' width='42%' />
+
+
 
                     </div>
 
@@ -118,14 +123,15 @@ const Login = () => {
 
 
                                     <label htmlFor="chk" aria-hidden="true">ورود</label>
-                                    <Field disabled={phoneentered} className='yekan' type="text" id="phone" name="phone"
+                                    <img src='/assets/images/logo2.webp' />
+                                    <Field disabled={isregistered} className='yekan' type="text" id="phone" name="phone"
                                            placeholder="شماره تلفن"/>
                                     <ErrorMessage style={{textAlign:'center' , color:'white'}} component='p' className='yekan-regular '
                                                   name='phone'/>
 
                                     {
-                                        phoneentered &&   <Field   className='yekan' type="tel" id="code" name="code"
-                                                                   placeholder="کد ارسال شده"
+                                        isregistered &&   <Field   className='yekan' type="password" id="code" name="code"
+                                                                   placeholder="رمز عبور"
 
 
                                         />
@@ -134,7 +140,7 @@ const Login = () => {
                                     <ErrorMessage component='span' className='has-text-danger yekan' name='pswd'/>
                                     <button disabled={loading} className='my-4' type='submit' >
                                         {
-                                            loading ? <Spinner/> : phoneentered ? 'ورود' :'ارسال کد'
+                                            loading ? <Spinner/> : isregistered ? 'ورود' :'ادامه'
                                         }
 
 
@@ -142,8 +148,8 @@ const Login = () => {
                                     </button>
 
                                     {
-                                        phoneentered && <button onClick={()=>{
-                                            setphoneentered(false);
+                                        isregistered && <button onClick={()=>{
+                                            setisregistered(false);
 
                                         }}  style={{backgroundColor:'rgba(88,86,86,0.39)' , border:'1px solid white'}}>
                                         ویرایش/تغییر شماره

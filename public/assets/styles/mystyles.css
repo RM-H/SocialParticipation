@@ -40,10 +40,10 @@ body {
 
 
 .clrone {
-    background-color: #4FE8E3 !important;
+    background-color: #252525 !important;
 }
 .clrtwo {
-    background-color: #1B95A2;
+    background-color: rgba(9,9,9,0.6);
 }
 .clrtwotext {
     color: #1B95A2;
@@ -60,6 +60,10 @@ body {
 }
 .clrsixtext {
     color: #FF4941;
+}
+
+.clrseventext {
+    color: #fff;
 }
 
 
@@ -107,8 +111,13 @@ body {
 /*-------------------------*/
 
 .margins {
-    padding-right: 10rem;
-    padding-left: 10rem;
+
+
+    padding-left: 10rem !important;
+}
+
+.toppad {
+    padding-top: 6rem;
 }
 
 
@@ -167,6 +176,7 @@ body {
 .main-login label {
     color: white;
     margin: 60px;
+    margin-bottom: 1.3rem;
     display: flex;
     justify-content: center;
     font-weight: bold;
@@ -180,7 +190,7 @@ body {
     height: 40px;
     background-color: #ffffff;
     display: flex;
-    margin: 20px auto;
+    margin: 0px auto 20px auto;
     padding: 20px 15px;
     justify-content: center;
     border: none;
@@ -215,7 +225,8 @@ body {
 
 .main-login .login {
     height: 460px;
-    background-color: #1B95A2;
+    background-color: #252525;
+    text-align: center;
 
     border-radius: 60% / 10%;
     transform: translateY(-180px);
@@ -228,6 +239,12 @@ body {
     font-family: 'yekan-reg';
     font-weight: bold;
     font-size: 4em;
+}
+
+.login img {
+    height: 5rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .main-login #chk:checked ~ .login {

@@ -3,36 +3,27 @@ import ReactDOM from 'react-dom/client'
 
 import Mainlayout from './Layouts/Mainlayout.jsx'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
-import { Provider } from 'react-redux'
-import {store} from "./store/store.js";
-import {Persnalinfo,Education,Professional,Department,Login} from './pages/index.js'
+
+import {Persnalinfo,Login,Results} from './pages/index.js'
 const router = createBrowserRouter([
     {
-        path: "/ats",
+        path: "/home",
         element: <Mainlayout/>,
 
 
 
         children:[
+
             {
-                path:'/ats' ,
-                element: <Department/>
-            } ,
-            {
-                path:'/ats/personal' ,
+                path:'/home' ,
                 element: <Persnalinfo/>
             } ,
             {
-                path:'/ats/education' ,
-                element:<Education/>
+                path:'/home/results' ,
+                element:<Results/>
 
             }
-            ,
-            {
-                path:'/ats/professional' ,
-                element:<Professional/>
 
-            }
 
 
 
@@ -54,7 +45,7 @@ const theme = createTheme({
 });
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <Provider store={store}>
+
 
 
       <RouterProvider router={router}>
@@ -67,7 +58,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           </ThemeProvider>
 
       </RouterProvider>
-      </Provider>
+
 
 
   </React.StrictMode>,
