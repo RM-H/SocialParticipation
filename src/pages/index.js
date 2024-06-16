@@ -1,0 +1,5 @@
+export {default as Persnalinfo} from './Personalinfo.jsx'
+export {default as Education} from './Education.jsx'
+export {default as Professional} from './Professional.jsx'
+export {default as Department} from './Departement.jsx'
+export {default as Login} from './Login.jsx'
