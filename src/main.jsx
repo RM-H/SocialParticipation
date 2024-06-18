@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import Mainlayout from './Layouts/Mainlayout.jsx'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 
-import {Persnalinfo,Login,Results} from './pages/index.js'
+import {Persnalinfo,Login,Results,Landing} from './pages/index.js'
 const router = createBrowserRouter([
     {
         path: "/home",
@@ -13,11 +13,13 @@ const router = createBrowserRouter([
 
 
         children:[
-
             {
-                path:'/home' ,
-                element: <Persnalinfo/>
-            } ,
+                path:'/home',
+                element:<Persnalinfo/>
+            },
+
+
+
             {
                 path:'/home/results' ,
                 element:<Results/>
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
     },
     {
         path:'/' ,
+        element: <Landing/>
+    } ,
+    {
+        path:'/login' ,
         element: <Login/>
     }
 ]);

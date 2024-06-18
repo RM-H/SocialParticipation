@@ -1,12 +1,18 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import {useEffect, useState} from "react";
-import {getInfo} from '../services/service.js'
+import {getInfo, baseurl} from '../services/service.js'
 import {Typography, Button} from '@mui/material'
 import {Spinner} from '../components/index.js'
+
+import {Link} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
+import {toast} from "react-toastify";
+import {Print, Refresh} from '@mui/icons-material'
 
 const Results = () => {
     const user = JSON.parse(localStorage.getItem('userinfo'))
 
+    const nav = useNavigate()
     const [data, setData] = useState(false)
 
 
@@ -16,7 +22,13 @@ const Results = () => {
         const response = await getInfo(formdata)
         if (response.data.code === 1) {
             setData(response.data)
+            if (response.data.user.confirm == 2) {
+                localStorage.setItem('userinfo', JSON.stringify(response.data))
+            }
+
+
         } else {
+            toast.warning(response.data.error)
 
         }
     }
@@ -39,17 +51,15 @@ const Results = () => {
 
                     </Typography>
 
-                    <Button onClick={()=>{
+                    <Button onClick={() => {
                         setData(false);
-                            getuserino()
-                    }} className='yekan-regular' variant='contained' color='warning' sx={{mt:3}}>
+                        getuserino()
+                    }} className='yekan-regular' variant='contained' color='warning' sx={{mt: 3}}>
+                        <Refresh/>
                         بروزرسانی
                     </Button>
 
                 </>
-
-
-
 
 
         } else if (data.user.confirm == 2) {
@@ -67,6 +77,14 @@ const Results = () => {
 
                     </Typography>
 
+                    <Button onClick={() => {
+                        nav('/home')
+
+                    }} className='yekan-regular' variant='contained' color='warning' sx={{mt: 3}}>
+                        ویرایش اطلاعات ثبت نامی
+                    </Button>
+
+
                 </>
 
 
@@ -81,9 +99,13 @@ const Results = () => {
 
                     </Typography>
 
-                    <Button color='success' className='yekan-regular' variant='contained' sx={{mt: 3}}>
-                        چاپ
-                    </Button>
+                    <Link to={`${baseurl}/api/v1/print?token=${data.user.token}`} target={'_blank'}>
+                        <Button color='success' className='yekan-regular' variant='contained' sx={{mt: 3}}>
+                            <Print/>
+                            چاپ
+                        </Button>
+                    </Link>
+
                 </>
 
         }
@@ -100,7 +122,7 @@ const Results = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundImage: 'url(/assets/images/wallpaper.png)',
+                backgroundImage: 'url(/asset/images/wallpaper.png)',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat'
             }}>

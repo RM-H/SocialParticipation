@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const url = 'http://192.168.1.111/api/v1'
-export const baseurl = 'https://mis.ofoghiranianteam.ir'
+export const url = 'https://demo.gilanfile.ir/api/v1'
+export const baseurl = 'https://demo.gilanfile.ir'
 
 
 
@@ -40,6 +40,12 @@ export const getCities = (provinceid) => {
 // users personal info
 export const saveUserinfo = (info) => {
   return axios.post(`${url}/register`,info)
+}
+
+
+// edit personal info
+export const editUserinfo = (info) => {
+  return axios.post(`${url}/edit`,info)
 }
 
 

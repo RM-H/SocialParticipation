@@ -71,7 +71,7 @@ const Navbar = (props) => {
 
                             <Grid xs={2} sx={{display: 'flex', justifyContent: 'center'}}>
 
-                                <img src="/assets/images/logo2.webp" alt="logo" width={100}
+                                <img src="/asset/images/logo2.webp" alt="logo" width={100}
                                 />
                             </Grid>
 

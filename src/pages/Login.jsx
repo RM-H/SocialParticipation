@@ -83,7 +83,7 @@ const Login = () => {
 
             <div
 
-                 style={{width: "100wv", height: '100vh' , display:'flex', justifyContent:'center' , alignItems:'center' , backgroundImage:'url(/assets/images/wallpaper.png)' , backgroundSize:'cover' , backgroundRepeat:'no-repeat'}}>
+                 style={{width: "100wv", height: '100vh' , display:'flex', justifyContent:'center' , alignItems:'center' , backgroundImage:'url(/asset/images/wallpaper.png)' , backgroundSize:'cover' , backgroundRepeat:'no-repeat'}}>
 
 
 
@@ -103,7 +103,7 @@ const Login = () => {
 
                     <div className="signup is-size-5 has-text-centered yekan-regular">
 
-                        <img src='/assets/images/logo.png' width='42%' />
+                        <img src='/asset/images/logo.png' width='42%' />
 
 
 
@@ -122,8 +122,8 @@ const Login = () => {
                                 <Form className='has-text-centered'>
 
 
-                                    <label htmlFor="chk" aria-hidden="true">ورود</label>
-                                    <img src='/assets/images/logo2.webp' />
+                                    <label htmlFor="chk" aria-hidden="true">ورود/ثبت نام</label>
+                                    <img src='/asset/images/logo2.webp' />
                                     <Field disabled={isregistered} className='yekan' type="text" id="phone" name="phone"
                                            placeholder="شماره تلفن"/>
                                     <ErrorMessage style={{textAlign:'center' , color:'white'}} component='p' className='yekan-regular '

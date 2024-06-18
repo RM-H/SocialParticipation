@@ -17,7 +17,7 @@ import {useState, useEffect} from "react";
 
 
 import {useNavigate} from 'react-router-dom'
-import {saveUserinfo, getProvinces, getCities} from '../services/service.js'
+import {saveUserinfo, getProvinces, getCities, editUserinfo} from '../services/service.js'
 import {toast} from "react-toastify";
 import {Spinner} from '../components/index.js'
 
@@ -25,7 +25,8 @@ import {Spinner} from '../components/index.js'
 const Personalinfo = () => {
 
 
-    const user = localStorage.getItem('userphone')
+    const userphone = localStorage.getItem('userphone')
+    const user = JSON.parse(localStorage.getItem('userinfo'))
     const nav = useNavigate()
 
     const [provinces, setProvinces] = useState(false)
@@ -71,35 +72,73 @@ const Personalinfo = () => {
         // checking to see if NC pic is selected
 
 
+
         if (img === false) {
             toast.warning('انتخاب کارت ملی ضروری میباشد.')
         } else {
-            const formdata = new FormData()
+            // editing user info
+            if (user && user.user.confirm == 2) {
 
-            formdata.append('name', val.firstName)
-            formdata.append('family', val.lastName)
+                const formdataedit = new FormData()
 
-            formdata.append('phone', val.tel)
-            formdata.append('password', val.password)
-            formdata.append('nc', val.nc)
-            formdata.append('province_id', val.province)
-            formdata.append('city_id', val.city)
+                formdataedit.append('name', val.firstName)
+                formdataedit.append('family', val.lastName)
+
+                formdataedit.append('phone', val.tel)
+                formdataedit.append('password', val.password)
+                formdataedit.append('nc', val.nc)
+                formdataedit.append('province_id', val.province)
+                formdataedit.append('city_id', val.city)
 
 
-            formdata.append('ncpic', image)
+                formdataedit.append('ncpic', image)
+                formdataedit.append('token', user.user.token)
 
 
-            setLoading(true)
-            const response = await saveUserinfo(formdata)
-            if (response.data.code == 1) {
+                setLoading(true)
+                const response = await editUserinfo(formdataedit)
+                if (response.data.code == 1) {
 
-                toast.success('اطلاعات شخصی شما با موفقیت ثبت شد')
-                localStorage.setItem('userinfo',JSON.stringify(response.data))
-                nav('/home/results')
-                setLoading(false)
+                    toast.success('اطلاعات شخصی شما با موفقیت بروز شد')
+                    localStorage.setItem('userinfo', JSON.stringify(response.data))
+                    nav('/home/results')
+                    setLoading(false)
+                } else {
+                    toast.warning(response.data.error)
+                    setLoading(false)
+                }
+
+
             } else {
-                toast.warning(response.data.error)
-                setLoading(false)
+
+                const formdata = new FormData()
+
+                formdata.append('name', val.firstName)
+                formdata.append('family', val.lastName)
+
+                formdata.append('phone', val.tel)
+                formdata.append('password', val.password)
+                formdata.append('nc', val.nc)
+                formdata.append('province_id', val.province)
+                formdata.append('city_id', val.city)
+
+
+                formdata.append('ncpic', image)
+
+
+                setLoading(true)
+                const response = await saveUserinfo(formdata)
+                if (response.data.code == 1) {
+
+                    toast.success('اطلاعات شخصی شما با موفقیت ثبت شد')
+                    localStorage.setItem('userinfo', JSON.stringify(response.data))
+                    nav('/home/results')
+                    setLoading(false)
+                } else {
+                    toast.warning(response.data.error)
+                    setLoading(false)
+                }
+
             }
 
 
@@ -119,7 +158,7 @@ const Personalinfo = () => {
         nc: yup.string().required('ضروری').matches(/^\d{10}$/, 'باید 10 رقم باشد'),
         province: yup.number().required('ضروری'),
         city: yup.number().required('ضروری'),
-        password: yup.string().min(6, 'حداقل 6 کاراکتر').required('ضروری')
+
 
     });
 
@@ -130,7 +169,7 @@ const Personalinfo = () => {
         initialValues: {
             firstName: '',
             lastName: '',
-            tel: user,
+            tel: userphone ? userphone : user.user.phone,
             nc: '',
             province: '',
             city: '',
@@ -147,12 +186,12 @@ const Personalinfo = () => {
 
     return (
         <>
-            <Grid container className='toppad' sx={{px:1}}>
+            <Grid container className='toppad' sx={{px: 1}}>
                 <Grid xs={12} sm={1}
                       sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
 
 
-                    <img src='/assets/images/logo.png' style={{maxHeight:'7rem'}}/>
+                    <img src='/asset/images/logo.png' style={{maxHeight: '7rem'}}/>
 
 
                 </Grid>
@@ -190,7 +229,7 @@ const Personalinfo = () => {
                                         </FormControl>
                                     </Grid>
 
-                                    <Grid xs={12}  sm={6}>
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined">
 
                                             <span className='yekan-regular'> نام خانوادگی :  </span>
@@ -215,7 +254,7 @@ const Personalinfo = () => {
 
                                     {/*row 2*/}
 
-                                    <Grid xs={12}  sm={6}>
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined">
 
                                             <span className='yekan-regular'> شماره تلفن :  </span>
@@ -238,7 +277,7 @@ const Personalinfo = () => {
                                         </FormControl>
                                     </Grid>
 
-                                    <Grid xs={12}  sm={6}>
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined">
 
                                             <span className='yekan-regular'> کد ملی :  </span>
@@ -263,7 +302,7 @@ const Personalinfo = () => {
                                     </Grid>
 
 
-                                    <Grid xs={12}  sm={6}>
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined">
 
                                             <span className='yekan-regular'> استان :  </span>
@@ -307,7 +346,7 @@ const Personalinfo = () => {
                                         </FormControl>
                                     </Grid>
 
-                                    <Grid xs={12}  sm={6}>
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined">
 
                                             <span className='yekan-regular'> شهر :  </span>
@@ -350,38 +389,42 @@ const Personalinfo = () => {
                                     </Grid>
 
 
-                                    <Grid xs={12}  sm={6}>
-                                        <FormControl className='w100' variant="outlined">
+                                    {
+                                        user && user.user.confirm == 2 ?
+                                            null : <Grid xs={12} sm={6}>
+                                                <FormControl className='w100' variant="outlined">
 
-                                            <span className='yekan-regular'> رمز عبور :  </span>
-                                            <TextField
-                                                id="password"
-                                                name='password'
-                                                type='password'
-                                                value={formik.values.password}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                    <span className='yekan-regular'> رمز عبور :  </span>
+                                                    <TextField
+                                                        id="password"
+                                                        name='password'
+                                                        type='password'
+                                                        value={formik.values.password}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
 
-                                                error={formik.touched.password && Boolean(formik.errors.password)}
-
-
-                                                helperText={formik.touched.password && formik.errors.password}
-
-
-                                            />
+                                                        error={formik.touched.password && Boolean(formik.errors.password)}
 
 
-                                        </FormControl>
-                                    </Grid>
+                                                        helperText={formik.touched.password && formik.errors.password}
 
 
-                                    <Grid xs={12}  sm={6}>
+                                                    />
+
+
+                                                </FormControl>
+                                            </Grid>
+
+                                    }
+
+
+                                    <Grid xs={12} sm={6}>
                                         <FormControl className='w100' variant="outlined"
                                                      sx={{alignItems: 'center', justifyContent: 'baseline'}}>
                                             <span className='yekan-regular'> تصویر کارت ملی :  </span>
                                             <img
-                                                src= {img==false ? '/assets/images/placeholder.jpg' :   URL.createObjectURL(img)}
-                                                alt="avatar" style={{maxHeight:'14rem'}}/>
+                                                src={img == false ? '/asset/images/placeholder.jpg' : URL.createObjectURL(img)}
+                                                alt="avatar" style={{maxHeight: '14rem'}}/>
 
                                             <input onChange={(e) => setImg(e.target.files[0])} className='yekan input'
                                                    type='file' id="img"
