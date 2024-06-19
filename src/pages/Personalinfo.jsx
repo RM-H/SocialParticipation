@@ -59,23 +59,20 @@ const Personalinfo = () => {
     }, [selectedprovinces]);
 
 
-    // avatar
-    const [img, setImg] = useState(false)
+
 
 
     // loading animation
     const [loading, setLoading] = useState(false)
 
 
-    const handlesubmit = async (val, image) => {
+    const handlesubmit = async (val) => {
 
         // checking to see if NC pic is selected
 
 
 
-        if (img === false) {
-            toast.warning('انتخاب کارت ملی ضروری میباشد.')
-        } else {
+
             // editing user info
             if (user && user.user.confirm == 2) {
 
@@ -91,7 +88,7 @@ const Personalinfo = () => {
                 formdataedit.append('city_id', val.city)
 
 
-                formdataedit.append('ncpic', image)
+
                 formdataedit.append('token', user.user.token)
 
 
@@ -123,7 +120,7 @@ const Personalinfo = () => {
                 formdata.append('city_id', val.city)
 
 
-                formdata.append('ncpic', image)
+
 
 
                 setLoading(true)
@@ -142,7 +139,7 @@ const Personalinfo = () => {
             }
 
 
-        }
+
 
 
     }
@@ -178,7 +175,7 @@ const Personalinfo = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            handlesubmit(values, img)
+            handlesubmit(values)
 
         },
     });
@@ -186,7 +183,7 @@ const Personalinfo = () => {
 
     return (
         <>
-            <Grid container className='toppad' sx={{px: 1}}>
+            <Grid container className='toppad' sx={{px: 1 , textAlign:'center'}}>
                 <Grid xs={12} sm={1}
                       sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
 
@@ -198,7 +195,7 @@ const Personalinfo = () => {
 
 
                 <Grid xs={12} sm={11}>
-                    <Grid container>
+                    <Grid container sx={{justifyContent:'center'}}>
                         <Grid xs={12}>
 
 
@@ -418,21 +415,7 @@ const Personalinfo = () => {
                                     }
 
 
-                                    <Grid xs={12} sm={6}>
-                                        <FormControl className='w100' variant="outlined"
-                                                     sx={{alignItems: 'center', justifyContent: 'baseline'}}>
-                                            <span className='yekan-regular'> تصویر کارت ملی :  </span>
-                                            <img
-                                                src={img == false ? '/asset/images/placeholder.jpg' : URL.createObjectURL(img)}
-                                                alt="avatar" style={{maxHeight: '14rem'}}/>
 
-                                            <input onChange={(e) => setImg(e.target.files[0])} className='yekan input'
-                                                   type='file' id="img"
-                                                   name="img"/>
-
-
-                                        </FormControl>
-                                    </Grid>
 
 
                                     <Grid xs={12} sx={{display: 'flex', justifyContent: 'end'}}>
