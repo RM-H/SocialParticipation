@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Unstable_Grid2";
 import {useEffect, useState} from "react";
 import {getInfo, baseurl} from '../services/service.js'
-import {Typography, Button} from '@mui/material'
+import {Typography, Button, ButtonGroup} from '@mui/material'
 import {Spinner} from '../components/index.js'
 
 import {Link} from 'react-router-dom'
@@ -132,14 +132,41 @@ const Results = () => {
                     borderRadius: '0.6rem',
                     p: 3,
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-around',
                     alignItems: 'center',
                     flexDirection: 'column'
                 }}>
 
                     {content}
 
+
+
+                       <div style={{textAlign:'center'}}>
+                           <p className='yekan-regular clrseventext ' style={{paddingBottom:'1rem'}}>
+                               ما را در شبکه های اجتماعی دنبال کنید:
+                           </p>
+                           <Link to='https://t.me/s_a_ghazizadeh' target='_blank'>
+                               <img src="/asset/images/telegram.png" alt="telegram"  style={{maxWidth:'2.5rem' , marginRight:'0.5rem' , marginLeft:'0.5rem ' , backgroundColor:'white' , borderRadius:'0.6rem' , padding:'0.1rem'}}/>
+                           </Link>
+
+                           <Link to='https://eitaa.com/s_a_ghazizadeh' target='_blank'>
+                               <img src="/asset/images/ita.png" alt="ita"  style={{maxWidth:'2.5rem' , marginRight:'0.5rem' , marginLeft:'0.5rem ' , backgroundColor:'white' , borderRadius:'0.6rem' , padding:'0.1rem'}}/>
+                           </Link>
+
+                           <Link to='https://ble.ir/s_a_ghazizadeh' target='_blank'>
+                               <img src="/asset/images/bale.png" alt="bale"  style={{maxWidth:'2.5rem' , marginRight:'0.5rem' , marginLeft:'0.5rem ' , backgroundColor:'white' , borderRadius:'0.6rem' , padding:'0.1rem'}}/>
+                           </Link>
+
+                           <Link to='https://rubika.ir/s_a_ghazizadeh' target='_blank'>
+                               <img src="/asset/images/rubica.png" alt="rubica"  style={{maxWidth:'2.5rem' , marginRight:'0.5rem' , marginLeft:'0.5rem ' , backgroundColor:'white' , borderRadius:'0.6rem' , padding:'0.1rem'}}/>
+                           </Link>
+
+
+                       </div>
+
                 </Grid>
+
+
 
 
             </Grid>

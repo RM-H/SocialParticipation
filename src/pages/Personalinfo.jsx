@@ -151,8 +151,8 @@ const Personalinfo = () => {
         lastName: yup.string().max(40, ' باید کوتاه تر باشد').required('ضروری'),
 
 
-        tel: yup.string().matches(/^[0-9]+$/, 'فقط عدد').length(11, 'شماره درست وارد نشده است').required('ضروری'),
-        nc: yup.string().required('ضروری').matches(/^\d{10}$/, 'باید 10 رقم باشد'),
+        tel: yup.string().required('ضروری'),
+        nc: yup.string().required('ضروری').length(10),
         province: yup.number().required('ضروری'),
         city: yup.number().required('ضروری'),
 
@@ -183,7 +183,7 @@ const Personalinfo = () => {
 
     return (
         <>
-            <Grid container className='toppad' sx={{px: 1 , textAlign:'center'}}>
+            <Grid container className='toppad' sx={{px: 3 , textAlign:'center'}}>
                 <Grid xs={12} sm={1}
                       sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
 

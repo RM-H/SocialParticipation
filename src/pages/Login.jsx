@@ -114,7 +114,7 @@ const Login = () => {
 
                         <Formik initialValues={{phone: '', code: ''}} validationSchema={Yup.object().shape({
 
-                            phone: Yup.string().matches(/^[0-9]+$/, 'فقط عدد').length(11, 'شماره درست وارد نشده است').required('ضروری'),
+                            phone: Yup.string().length(11, 'شماره درست وارد نشده است').required('ضروری'),
 
 
                         })} onSubmit={(values) => HandleLogin(values)}>
